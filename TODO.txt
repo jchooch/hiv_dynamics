@@ -1,0 +1,2 @@
+1. Check 5E7 virus as a reasonable threshold for infection window (it doesn't show on the graph).
+2. 
