@@ -10,8 +10,7 @@ Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 2
 %C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(11)=K_L, C(12)=Z decay rate, 
 %C(13)= A decay rate
 
-num_days = 10   % number of days = number of doses (see below)
-tspan = linspace(0,1,100);  % second number should be dose interval (e.g. 1 day)  
+tspan = linspace(0,14,1000);        
 yinit = [5E9, 100, 0, 1E6, 0, .3, .3];  %T, I, L, V_I, V_NI, Z (mg), A (mg)
 
 %% Solving ODE system
@@ -20,19 +19,7 @@ DiffFileName = 'HIVDiffPI';
 DE = eval(sprintf('@(t, y, C) %s(t,y,C)', DiffFileName));
 [tout, yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
 
-stacked_ys = yout
 
-for i = 2:num_days
-    ys = yout(length(yout),:)
-    ys(6) = 0.3
-    ys(7) = 0.3
-    yinit = ys
-    [tout, yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
-    stacked_ys = vertcat(stacked_ys, yout)
-end
-
-yout = stacked_ys
-tout = linspace(0, num_days, length(tspan) * num_days) % readjust tout for plotting
 
 conc = yout(:,6:7)./5 %change to concentrations in g/L
 conc_Z = conc(:,1)./286.332 %% change to concentration in mol/L
@@ -65,7 +52,7 @@ title('Free virus over time (PI condition)')
 figure(2)
 tiledlayout(2,2)
 nexttile
-plot(tout, conc_Z, '-k')
+plot(tspan, conc_Z, '-k')
 xlabel('Time (days)')
 ylabel('Concentration of Drug (M)')
 title('Concentration of Ziagen after 300mg Dose')
@@ -80,7 +67,7 @@ n_h_Z = 1;
 efficacy_Z = (Emax_Z.* conc_Z.^n_h_Z)/(EC50_Z^n_h_Z + conc_Z.^n_h_Z);
 
 nexttile
-plot(tout, efficacy_Z, '-k')
+plot(tspan, efficacy_Z, '-k')
 xlabel('Time (days)')
 ylabel('Efficacy of Drug')
 title('Efficacy of Ziagen after 300mg Dose')
@@ -90,7 +77,7 @@ axis([0,1,0,1])
 %% Atazanavir Drug Concentration Curve
 
 nexttile
-plot(tout, conc_A, '-k')
+plot(tspan, conc_A, '-k')
 xlabel('Time (days)')
 ylabel('Concentration of Drug (mg/mL)')
 title('Concentration of Atzanavir after 300mg Dose')
@@ -105,7 +92,7 @@ n_h_A = 3;
 efficacy_A = (Emax_A.* conc_A.^n_h_A)/(EC50_A^n_h_A + conc_A.^n_h_A);
 
 nexttile
-plot(tout, efficacy_A, '-k')
+plot(tspan, efficacy_A, '-k')
 xlabel('Time (days)')
 ylabel('Efficacy of Drug')
 title('Efficacy of Atazanavir after 300mg Dose')
