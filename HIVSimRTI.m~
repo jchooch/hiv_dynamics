@@ -112,11 +112,10 @@ ylabel('Efficacy of Drug')
 title('Efficacy of Atazanavir after 300mg Dose')
 axis([0,1,0,1])
 
-%% Checking Ziagen Timecourse
+%%
 
 figure(3)
 tiledlayout(1,2)
 plot(tout, efficacy_Z)
-title('Efficacy of Ziagen Over 10 Days')
 xlabel('Time (days)')
 ylabel('Efficacy of RTI')
