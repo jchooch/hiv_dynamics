@@ -2,11 +2,13 @@
 
 function dydt = HIVDiffPI(t, y, C)
 
+%thisepsilon = efficacy_A(t)
+
 dydt = [C(1)*y(1)*(1 - (y(1)/C(2))) - C(3)*y(1) - C(4)*y(4)*y(1) - C(5)*y(4)*y(1);  %dT/dt
-        C(4)*y(4)*y(1) + C(7)*y(3) - C(8)*y(2);                         %dI/dt
+        C(4)*y(4)*y(1) + C(7)*y(3) - C(8)*y(2);                                     %dI/dt
         C(1)*y(3)*(1 - (y(3)/C(11))) + C(5)*y(4)*y(1) - C(6)*y(3) - C(7)*y(3);      %dL/dt
-        (1 - y(7))*C(9)*y(2) - C(10)*y(4);     %dVi/dt
-        y(7)*C(9)*y(2) - C(10)*y(5);           %dVni/dt
+        (1 - thisepsilon)*C(9)*y(2) - C(10)*y(4);     %dVi/dt
+        thisepsilon*C(9)*y(2) - C(10)*y(5);           %dVni/dt
         -C(12) * y(6);                          %dZ/dt
         -C(13) * y(7)]                          %dA/dt
 end
@@ -18,4 +20,4 @@ end
 %C(13)= A decay rate
 %y(1)=target, y(2)=infected, y(3)=latent, 
 %y(4)=virusI, y(5)=virusNI, 
-%y(6) = Z conc, %y(7)= A conc
+%y(6) = Z conc, y(7)= A conc

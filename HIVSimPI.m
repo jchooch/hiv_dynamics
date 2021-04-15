@@ -16,6 +16,8 @@ yinit = [5E9, 100, 0, 1E6, 0, .3, .3];  %T, I, L, V_I, V_NI, Z (mg), A (mg)
 
 %% Solving ODE system
 
+
+
 DiffFileName = 'HIVDiffPI';
 DE = eval(sprintf('@(t, y, C) %s(t,y,C)', DiffFileName));
 [tout, yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
@@ -99,7 +101,7 @@ axis([0,1,0,1e-4])
 %% Atazanavir Drug Efficacy
 
 Emax_A = 1;
-EC50_A = 4e-9; %M
+EC50_A = 4e-9;
 n_h_A = 3;
 
 efficacy_A = (Emax_A.* conc_A.^n_h_A)/(EC50_A^n_h_A + conc_A.^n_h_A);
