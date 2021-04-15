@@ -2,14 +2,13 @@
 
 function dydt = HIVDiffPI(t, y, C, efficacies)
 
-index = floor(t * 99) + 1;
-thisepsilon = efficacies(index);
+thisepsilon = efficacies(find(t == t));
 
 dydt = [C(1)*y(1)*(1 - (y(1)/C(2))) - C(3)*y(1) - C(4)*y(4)*y(1) - C(5)*y(4)*y(1);  %dT/dt
         C(4)*y(4)*y(1) + C(7)*y(3) - C(8)*y(2);                                     %dI/dt
         C(1)*y(3)*(1 - (y(3)/C(11))) + C(5)*y(4)*y(1) - C(6)*y(3) - C(7)*y(3);      %dL/dt
         (1 - thisepsilon)*C(9)*y(2) - C(10)*y(4);     %dVi/dt
-        thisepsilon*C(9)*y(2) - C(10)*y(5)]         %dVni/dt
+        thisepsilon*C(9)*y(2) - C(10)*y(5)]
 
 end
 

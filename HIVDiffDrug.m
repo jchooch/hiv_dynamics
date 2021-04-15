@@ -2,7 +2,7 @@
 
 function dydt = HIVDiffDrug(t, y, C)
 
-dydt = [-C(1) * y(1)
+dydt = [-C(1) * y(1);
         -C(2) * y(2)]
 end
 
