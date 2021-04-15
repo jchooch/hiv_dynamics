@@ -119,3 +119,12 @@ plot(fulltspan, efficacies_Z(1,:))
 title('Efficacy of Ziagen Over 10 Days')
 xlabel('Time (days)')
 ylabel('Efficacy of RTI')
+
+%% Checking Atazanavir Timecourse
+
+figure(4)
+tiledlayout(1,2)
+plot(fulltspan, efficacies_A(1,:))
+title('Efficacy of Atazanavir Over 10 Days')
+xlabel('Time (days)')
+ylabel('Efficacy of PI')
