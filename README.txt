@@ -17,5 +17,7 @@ ___________
 TODO
 
 1. Check 5E7 virus as a reasonable threshold for infection window (it doesn't show on the graph).
-2. The effects model is only for a single dose. Need to repeat doses everyday!
-3. Maybe plot latent cells on log graph separately.
+2. Maybe plot latent cells on log graph separately.
+3. Simulate with different constant values of epsilon for each of the conditions at the beginning, for expositional clarity.
+4. Show drug concentration and efficacy curves over the full timespan.
+5. Figures and tables side-by-side. Use the latter to explain the former. Reference both in the body. Figures don't have to be huge.
