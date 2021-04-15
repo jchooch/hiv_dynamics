@@ -24,3 +24,4 @@ TODO
 6. For Mechanism of Infection slide, too many figures. Divide up.
 7. Get peaks and times to peak for all conditions. (And area under curve, and slope of viral growth curve.)
 8. Add additional assumptions to slides.
+9. Increase linewidths and text size on all graphs. Make them better and clearer.
