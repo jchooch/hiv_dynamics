@@ -9,7 +9,7 @@ Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 2
 %C(1)=gamma, C(2)=K_T, C(3)=d_T, C(4)=beta, C(5)=eta, C(6)=d_L,
 %C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(11)=K_L
 
-num_days = 10;   % number of days = number of doses (see below)
+num_days = 20;   % number of days = number of doses (see below)
 tspan = linspace(0,1,100);  % second number should be dose interval (e.g. 1 day)  
 yinit = [5E9, 100, 0, 1E6, 0];  %T, I, L, V_I, V_NI, Z (mg), A (mg)
 
@@ -40,14 +40,14 @@ n_h_A = 3;
 efficacy_A = (Emax_A.* conc_A.^n_h_A)/(EC50_A^n_h_A + conc_A.^n_h_A);
 efficacy_A = efficacy_A(:,1);
 
-efficacies_Z = repmat(efficacy_Z, 1, num_days)
-efficacies_A = repmat(efficacy_A, 1, num_days)
+efficacies_Z = repmat(transpose(efficacy_Z), 1, num_days)
+efficacies_A = repmat(transpose(efficacy_A), 1, num_days)
 
 fulltspan = linspace(0, num_days, length(tspan) * num_days)
 
 DiffFileName = 'HIVDiffPI';
 DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y, C, efficacies)', DiffFileName));
-[tout, yout] = ode45(@(t,y) DE(t,y,Const,efficacies_A), fulltspan, yinit);
+[tout, yout] = ode45(@(t,y) DE(t,y,Const,efficacies_A(1,:)), fulltspan, yinit);
 
 %% Plot cells
 
@@ -69,7 +69,7 @@ xlabel('Time (days)')
 ylabel('Number')
 legend('Free infectious virus', 'Free noninfectious virus')
 title('Free virus over time (PI condition)')
-ylim(0,)
+ylim([0 inf])
 
 %% Ziagen Drug Concentration Curve
 

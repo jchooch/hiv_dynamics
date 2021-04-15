@@ -9,7 +9,7 @@ clear, format short e, figure(1), clf
 Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 22, 5E8]; 
 %C(1)=gamma, C(2)=K_T, C(3)=d_T, C(4)=beta, C(5)=eta, C(6)=d_L, C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(11)=K_L
 
-tspan = linspace(0,14,1000);        
+tspan = linspace(0,20,1000);        
 yinit = [5E9, 100, 0, 1E6];  %T, I, L, V
 
 %% Solving ODE system

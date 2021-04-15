@@ -1,2 +1,3 @@
 1. Check 5E7 virus as a reasonable threshold for infection window (it doesn't show on the graph).
 2. The effects model is only for a single dose. Need to repeat doses everyday!
+3. Maybe plot latent cells on log graph separately.

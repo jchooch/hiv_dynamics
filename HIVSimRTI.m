@@ -6,38 +6,49 @@ clear, format short e, figure(1), clf
 %% Establishing constants      
 
 % constants consistent with google doc a/o 04.11.2021
-Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 22, 5E8, 11.0903548896, 2.3765019031978];  %swap 0.7 for epsRTI! 
+Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 22, 5E8];
 %C(1)=gamma, C(2)=K_T, C(3)=d_T, C(4)=beta, C(5)=eta, C(6)=d_L,
-%C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(s11)=K_L, C(12)=Z decay rate,
-%C(13)=A decay rate
+%C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(s11)=K_L
 
-num_days = 10   % number of days = number of doses (see below)
+num_days = 20   % number of days = number of doses (see below)
 tspan = linspace(0,1,100);  % second number should be dose interval (e.g. 1 day)  
-yinit = [5E9, 100, 0, 1E6, .3, .3];  %T, I, L, V, Z (mg), A (mg)
+yinit = [5E9, 100, 0, 1E6];  %T, I, L, V
 
 %% Solving ODE system
 
+Const_drug = [11.0903548896, 2.3765019031978];
+yinit_drug = [.3, .3];
+
+DiffFileName = 'HIVDiffDrug';
+DE_drug = eval(sprintf('@(t, y, C) %s(t,y,C)', DiffFileName));
+[tout_drug, yout_drug] = ode45(@(t,y) DE_drug(t,y,Const_drug), tspan, yinit_drug);
+
+conc = yout_drug./5; %change to concentrations in g/L
+conc_Z = conc(:,1)./286.332; %% change to concentration in mol/L
+conc_A = conc(:,2)./704.856; %% change to concentration in mol/L
+
+Emax_Z = 1;
+EC50_Z = 4e-6;
+n_h_Z = 1;
+
+efficacy_Z = (Emax_Z.* conc_Z.^n_h_Z)/(EC50_Z^n_h_Z + conc_Z.^n_h_Z);
+efficacy_Z = efficacy_Z(:,1);
+
+Emax_A = 1;
+EC50_A = 4e-9;
+n_h_A = 3;
+
+efficacy_A = (Emax_A.* conc_A.^n_h_A)/(EC50_A^n_h_A + conc_A.^n_h_A);
+efficacy_A = efficacy_A(:,1);
+
+efficacies_Z = repmat(transpose(efficacy_Z), 1, num_days)
+efficacies_A = repmat(transpose(efficacy_A), 1, num_days)
+
+fulltspan = linspace(0, num_days, length(tspan) * num_days)
+
 DiffFileName = 'HIVDiffRTI';
-DE = eval(sprintf('@(t, y, C) %s(t,y,C)', DiffFileName));
-[tout, yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
-
-stacked_ys = yout
-
-for i = 2:num_days
-    ys = yout(length(yout),:)
-    ys(5) = 0.3
-    ys(6) = 0.3
-    yinit = ys
-    [tout, yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
-    stacked_ys = vertcat(stacked_ys, yout)
-end
-
-yout = stacked_ys
-tout = linspace(0, num_days, length(tspan) * num_days) % readjust tout for plotting
-
-conc = yout(:,5:6)./5 %change to concentrations in g/L
-conc_Z = conc(:,1)./286.332 %% change to concentration in mol/L
-conc_A = conc(:,2)./704.856 %% change to concentration in mol/L
+DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y, C, efficacies)', DiffFileName));
+[tout, yout] = ode45(@(t,y) DE(t,y,Const, efficacies_Z(1,:)), fulltspan, yinit);
 
 %% Plot cells
 
@@ -66,7 +77,7 @@ title('Free virus over time (RTI condition)')
 figure(2)
 tiledlayout(2,2)
 nexttile
-plot(tout, conc_Z, '-k')
+plot(tspan, conc_Z, '-k')
 xlabel('Time (days)')
 ylabel('Concentration of Drug (M)')
 title('Concentration of Ziagen after 300mg Dose')
@@ -74,14 +85,8 @@ axis([0,1,0,2e-4])
 
 %% Ziagen Drug Efficacy
 
-Emax_Z = 1;
-EC50_Z = 4e-6;
-n_h_Z = 1;
-
-efficacy_Z = (Emax_Z.* conc_Z.^n_h_Z)/(EC50_Z^n_h_Z + conc_Z.^n_h_Z);
-
 nexttile
-plot(tout, efficacy_Z, '-k')
+plot(tspan, efficacy_Z, '-k')
 xlabel('Time (days)')
 ylabel('Efficacy of Drug')
 title('Efficacy of Ziagen after 300mg Dose')
@@ -91,7 +96,7 @@ axis([0,1,0,1])
 %% Atazanavir Drug Concentration Curve
 
 nexttile
-plot(tout, conc_A, '-k')
+plot(tspan, conc_A, '-k')
 xlabel('Time (days)')
 ylabel('Concentration of Drug (mg/mL)')
 title('Concentration of Atzanavir after 300mg Dose')
@@ -99,14 +104,8 @@ axis([0,1,0,1e-4])
 
 %% Atazanavir Drug Efficacy
 
-Emax_A = 1;
-EC50_A = 4e-9; %M
-n_h_A = 3;
-
-efficacy_A = (Emax_A.* conc_A.^n_h_A)/(EC50_A^n_h_A + conc_A.^n_h_A);
-
 nexttile
-plot(tout, efficacy_A, '-k')
+plot(tspan, efficacy_A, '-k')
 xlabel('Time (days)')
 ylabel('Efficacy of Drug')
 title('Efficacy of Atazanavir after 300mg Dose')
@@ -116,7 +115,7 @@ axis([0,1,0,1])
 
 figure(3)
 tiledlayout(1,2)
-plot(tout, efficacy_Z)
+plot(fulltspan, efficacies_Z(1,:))
 title('Efficacy of Ziagen Over 10 Days')
 xlabel('Time (days)')
 ylabel('Efficacy of RTI')
