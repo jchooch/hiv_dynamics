@@ -21,3 +21,6 @@ TODO
 3. Simulate with different constant values of epsilon for each of the conditions at the beginning, for expositional clarity.
 4. Show drug concentration and efficacy curves over the full timespan.
 5. Figures and tables side-by-side. Use the latter to explain the former. Reference both in the body. Figures don't have to be huge.
+6. For Mechanism of Infection slide, too many figures. Divide up.
+7. Get peaks and times to peak for all conditions. (And area under curve, and slope of viral growth curve.)
+8. Add additional assumptions to slides.
