@@ -6,8 +6,12 @@ clear, format short e, figure(1), clf
 %% Establishing constants
 
 Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 22, 5E8, 0];
-%C(1)=gamma, C(2)=K_T, C(3)=d_T, C(4)=beta, C(5)=eta, C(6)=d_L,
-%C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(11)=K_L, C(12)=epsilonPI
+
+for eps = linspace(0, 1, 11)
+    Const = 
+    %C(1)=gamma, C(2)=K_T, C(3)=d_T, C(4)=beta, C(5)=eta, C(6)=d_L,
+    %C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(11)=K_L, C(12)=epsilonPI
+end
 
 tspan = linspace(0,20,1000);  % second number should be number of days
 yinit = [5E9, 100, 0, 1E6, 0];  %T, I, L, V_I, V_NI
@@ -29,8 +33,8 @@ end
 figure(1)
 tiledlayout(1,2)
 nexttile
-plot(touts(:,2),youts(:,1,2), touts(:,1),youts(:,2,2), touts(:,1),youts(:,3,2), 
-    touts(:,8),youts(:,1,8), touts(:,8),youts(:,2,8), touts(:,8),youts(:,3,8))
+plot(touts(:,1),yout(:,1,1),'k-', touts(:,1),yout(:,2,1),'b-', touts(:,1),yout(:,3,1),'g-')
+plot(tout(:,2),yout(:,1,2),'k-', tout(:,2),yout(:,2,2),'b-', tout(:,2),yout(:,3,2),'g-')
 xlabel('Time (days)')
 ylabel('Number')
 legend('Target cells', 'Infected cells', 'Latent cells')
@@ -40,8 +44,7 @@ title('Cells over time (PI condition)')
 %% Plot virus
 
 nexttile
-plot(touts(:,2),youts(:,4,2),'r-', touts(:,2),youts(:,5,2), 'c-', 
-    touts(:,8),youts(:,4,8),'r-', touts(:,8),youts(:,5,8), 'c-')
+plot(touts(:,4),youts(:,4,1),'r-', touts(:,4,1),yout(:,5), 'c-')
 xlabel('Time (days)')
 ylabel('Number')
 legend('Free infectious virus', 'Free noninfectious virus')
