@@ -5,11 +5,11 @@ clear, format short e, figure(1), clf
 
 %% Establishing constants      
 
-Const = [0.25, 100000000, 0.001, 0.000000001, 0.0000000001, 0.00137, 0.05, 0.39, 850, 0.01, 5000, 0, 0];  % 
+Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 22, 5E8, 0, 0];  %
 %C(1)=gamma, C(2)=K_T, C(3)=d_T, C(4)=beta, C(5)=eta, C(6)=d_L,
 %C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(11)=K_L, C(12)=epsilon_PI,
 %C(13)=epsilon_RTI
-% epsilon values are just initialisations... see _for loops_ below
+% epsilon values are just initialisations... see _for_ loops below
 
 tspan = linspace(0,20,100);        
 yinit = [5E9, 100, 0, 1E6, 0];  %T, I, L, V_I, V_NI
