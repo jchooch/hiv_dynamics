@@ -1,0 +1,7 @@
+# _specs.txt
+
+Ideally, graph specs should be the following.
+
+LineWidth	: 	1.4
+FontSize	:	16
+Dimensions	: 	18 x 10 inches

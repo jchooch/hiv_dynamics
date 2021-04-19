@@ -20,36 +20,39 @@ DE = eval(sprintf('@(t, y, C) %s(t,y,C)', DiffFileName));
 
 %% Peak and time-to-peak
 
-peak_i = max(yout(:,2))
-peak_v = max(yout(:,4))
+disp('Total number of infected timesteps (by cells):')
+disp(nnz(yout(:,2) > 5.7E5))
+disp('Total number of infected timesteps (by virus):')
+disp(nnz(yout(:,4) > 5.7E5))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
+%peak_i = max(yout(:,2))
+%peak_v = max(yout(:,4))
 %disp("Peak infected cells:", peak_i) %no idea how to write this but they
 %print anyway
 %disp("Peak virus:", peak_v)
 
-window1 = min(find(yout(:,4) > 5.7E5))
-window2 = max(find(yout(:,4) > 5.7E5))
-
-%% Epsilon curve
-
-
+%window1 = min(find(yout(:,4) > 5.7E5))
+%window2 = max(find(yout(:,4) > 5.7E5))
 
 %% Plot cells
 
 tiledlayout(1,2)
 nexttile
-plot(tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-')
-xlabel('Time (days)')
-ylabel('Numbers')
-legend('Target cells', 'Infected cells', 'Latent cells')
-title('Cells over time (untreated condition)')
+plot(tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
+xlabel('Time (days)', 'FontSize', 16)
+ylabel('Numbers', 'FontSize', 16)
+legend('Target cells', 'Infected cells', 'Latent cells', 'FontSize', 16)
+title('Cells over time (untreated condition)', 'FontSize', 16)
 %axis([0,12,0,200])
 
 %% Plot virus
 
 nexttile
-plot(tout,yout(:,4),'r-')
-xlabel('Time (days)')
-ylabel('Number')
-legend('Free virus')
-title('Free virus over time (untreated condition)')
+plot(tout,yout(:,4),'r-', 'LineWidth', 1.4)
+xlabel('Time (days)', 'FontSize', 16)
+ylabel('Number', 'FontSize', 16)
+legend('Free virus', 'FontSize', 16)
+title('Free virus over time (untreated condition)', 'FontSize', 16)
 %axis([0,12,0,200])

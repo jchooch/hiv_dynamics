@@ -24,7 +24,7 @@ DE_drug = eval(sprintf('@(t, y, C) %s(t,y,C)', DiffFileName));
 
 conc = yout_drug./5; %change to concentrations in g/L
 conc_Z = conc(:,1)./286.332; %% change to concentration in mol/L
-conc_A = conc(:,2)./704.856; %% change to concentration in mol/L
+conc_R = conc(:,2)./704.856; %% change to concentration in mol/L
 
 Emax_Z = 1;
 EC50_Z = 4e-6;
@@ -33,21 +33,21 @@ n_h_Z = 1;
 efficacy_Z = (Emax_Z.* conc_Z.^n_h_Z)/(EC50_Z^n_h_Z + conc_Z.^n_h_Z);
 efficacy_Z = efficacy_Z(:,1);
 
-Emax_A = 1;
-EC50_A = 4e-9;
-n_h_A = 3;
+Emax_R = 1;
+EC50_R = 4e-9;
+n_h_R = 3;
 
-efficacy_A = (Emax_A.* conc_A.^n_h_A)/(EC50_A^n_h_A + conc_A.^n_h_A);
-efficacy_A = efficacy_A(:,1);
+efficacy_R = (Emax_R.* conc_R.^n_h_R)/(EC50_R^n_h_R + conc_R.^n_h_R);
+efficacy_R = efficacy_R(:,1);
 
 efficacies_Z = repmat(transpose(efficacy_Z), 1, num_days)
-efficacies_A = repmat(transpose(efficacy_A), 1, num_days)
+efficacies_R = repmat(transpose(efficacy_R), 1, num_days)
 
 fulltspan = linspace(0, num_days, length(tspan) * num_days)
 
 DiffFileName = 'HIVDiffPI';
 DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y, C, efficacies)', DiffFileName));
-[tout, yout] = ode45(@(t,y) DE(t,y,Const,efficacies_A(1,:)), fulltspan, yinit);
+[tout, yout] = ode45(@(t,y) DE(t,y,Const,efficacies_R(1,:)), fulltspan, yinit);
 
 %% Plot cells
 
@@ -92,20 +92,20 @@ title('Efficacy of Ziagen after 300mg Dose')
 axis([0,1,0,1])
 
 
-%% Atazanavir Drug Concentration Curve
+%% Reyataz Drug Concentration Curve
 
 nexttile
-plot(tspan, conc_A, '-k')
+plot(tspan, conc_R, '-k')
 xlabel('Time (days)')
 ylabel('Concentration of Drug (mg/mL)')
-title('Concentration of Atzanavir after 300mg Dose')
+title('Concentration of Reyataz after 300mg Dose')
 axis([0,1,0,1e-4])
 
-%% Atazanavir Drug Efficacy
+%% Reyataz Drug Efficacy
 
 nexttile
-plot(tspan, efficacy_A, '-k')
+plot(tspan, efficacy_R, '-k')
 xlabel('Time (days)')
 ylabel('Efficacy of Drug')
-title('Efficacy of Atazanavir after 300mg Dose')
+title('Efficacy of Reyataz after 300mg Dose')
 axis([0,1,0,1])
