@@ -17,11 +17,12 @@ yinit = [5E9, 100, 0, 1E6, 0];  %T, I, L, V_I, V_NI
 DiffFileName = 'HIVDiffConstPI';
 DE = eval(sprintf('@(t, y, C) %s(t,y, C)', DiffFileName));
 
-for eps = linspace(0, 1, 11)
-    Const(12) = eps
+for epsRTI = 
+    for eps = linspace(0, 1, 11)
+    Const(12) = eps;
     [tout, yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
-    touts(:, eps*10+1) = tout
-    youts(:, :, eps*10+1) = yout
+    touts(:, eps*10+1) = tout;
+    youts(:, :, eps*10+1) = yout;
 end
 
 %% Plot cells
@@ -29,21 +30,29 @@ end
 figure(1)
 tiledlayout(1,2)
 nexttile
-plot(touts(:,2),youts(:,1,2), touts(:,1),youts(:,2,2), touts(:,1),youts(:,3,2), 
-    touts(:,8),youts(:,1,8), touts(:,8),youts(:,2,8), touts(:,8),youts(:,3,8))
+plot(touts(:,2),youts(:,1,2),'k-',...
+    touts(:,1),youts(:,2,2),'b-',...
+    touts(:,1),youts(:,3,2),'g-',...
+    touts(:,8),youts(:,1,9),'k--',...
+    touts(:,8),youts(:,2,9),'b--',...
+    touts(:,8),youts(:,3,9),'g--',...
+    'LineWidth',1.2)
 xlabel('Time (days)')
 ylabel('Number')
-legend('Target cells', 'Infected cells', 'Latent cells')
+legend('Target cells (\epsilon = 0.1)', 'Infected cells (\epsilon = 0.1)', 'Latent cells (\epsilon = 0.1)', ...
+    'Target cells (\epsilon = 0.8)', 'Infected cells (\epsilon = 0.8)', 'Latent cells (\epsilon = 0.8)')
 title('Cells over time (PI condition)')
-%axis([0,12,0,200])
 
 %% Plot virus
 
 nexttile
-plot(touts(:,2),youts(:,4,2),'r-', touts(:,2),youts(:,5,2), 'c-', 
-    touts(:,8),youts(:,4,8),'r-', touts(:,8),youts(:,5,8), 'c-')
+plot(touts(:,2),youts(:,4,2),'r-',...
+    touts(:,2),youts(:,5,2),'c-',...
+    touts(:,8),youts(:,4,9),'r--',...
+    touts(:,8),youts(:,5,9), 'c--',...
+    'LineWidth',1.2)
 xlabel('Time (days)')
 ylabel('Number')
-legend('Free infectious virus', 'Free noninfectious virus')
+legend('Free infectious virus (\epsilon = 0.1)', 'Free noninfectious virus (\epsilon = 0.1)', 'Free infectious virus (\epsilon = 0.8)', 'Free noninfectious virus (\epsilon = 0.8)')
 title('Free virus over time (PI condition)')
 ylim([0 inf])

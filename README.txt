@@ -13,6 +13,9 @@ Constants before 12th April:
 - RTI: Const = [0.25, 100000000, 0.001, 0.000000001, 0.0000000001, 0.00137, 0.05, 0.39, 850, 0.01, 5000, 0.9];
 - CART: Const = [0.25, 100000000, 0.001, 0.000000001, 0.0000000001, 0.00137, 0.05, 0.39, 850, 0.01, 5000, 0.9, 0.9];
 
+SimConstPI and DiffConstPI are good.
+Still need SimConstRTI, DiffConstRTI, SimConstCART, and DiffConstCART.
+
 ___________
 TODO
 
