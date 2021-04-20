@@ -30,3 +30,5 @@ TODO
 	Epsilon PI should be 0.2 or higher.
 	Epsilon RTI should be 0.2 or higher.
 	Together, they should both be 0.2 or higher.
+- Make sure all rate decay coefficents are equal.
+- Make sure all new graphs are formatted right.
