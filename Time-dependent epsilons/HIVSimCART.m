@@ -68,3 +68,16 @@ xlabel('Time (days)', 'FontSize', 16)
 ylabel('Number of virus particles', 'FontSize', 16)
 legend('Free infectious virus', 'Free noninfectious virus', 'FontSize', 16)
 title('Free virus over time (cART condition)', 'FontSize', 16)
+
+%% Statistics
+
+disp('Total number of infected timesteps (by virus):')
+disp(nnz(yout(:,4) > 5.7E5))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
+peak_v = max(yout(:,4))
+disp("Peak virus:")
+disp(peak_v)
+disp('Time to peak:')
+find(yout(:,4) == peak_v) % time to peak

@@ -15,7 +15,7 @@ yinit = [5E9, 100, 0, 1E6, 0];  %T, I, L, V_I, V_NI
 
 %% Solving ODE system
 
-Const_drug = [0.1 * 11.0903548896, 0.2 * 2.3765019031978]; % Z decay rate, R decay rate
+Const_drug = [0.1 * 11.0903548896, 0.2 * 2.3765019031978]; % Z conc decay rate, R conc decay rate
 yinit_drug = [.3, .3];
 
 DiffFileName = 'HIVDiffDrug';
@@ -91,7 +91,6 @@ ylabel('Efficacy of Drug')
 title('Efficacy of Ziagen after 300mg Dose')
 axis([0,1,0,1])
 
-
 %% Reyataz Drug Concentration Curve
 
 nexttile
@@ -109,3 +108,16 @@ xlabel('Time (days)')
 ylabel('Efficacy of Drug')
 title('Efficacy of Reyataz after 300mg Dose')
 axis([0,1,0,1])
+
+%% Statistics
+
+disp('Total number of infected timesteps (by virus):')
+disp(nnz(yout(:,4) > 5.7E5))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
+peak_v = max(yout(:,4))
+disp("Peak virus:")
+disp(peak_v)
+disp('Time to peak:')
+find(yout(:,4) == peak_v) % time to peak

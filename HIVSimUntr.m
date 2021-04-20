@@ -18,24 +18,6 @@ DiffFileName = 'HIVDiffUntr';
 DE = eval(sprintf('@(t, y, C) %s(t,y,C)', DiffFileName));
 [tout, yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
 
-%% Peak and time-to-peak
-
-disp('Total number of infected timesteps (by cells):')
-disp(nnz(yout(:,2) > 5.7E5))
-disp('Total number of infected timesteps (by virus):')
-disp(nnz(yout(:,4) > 5.7E5))
-utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
-disp(utter)
-
-%peak_i = max(yout(:,2))
-%peak_v = max(yout(:,4))
-%disp("Peak infected cells:", peak_i) %no idea how to write this but they
-%print anyway
-%disp("Peak virus:", peak_v)
-
-%window1 = min(find(yout(:,4) > 5.7E5))
-%window2 = max(find(yout(:,4) > 5.7E5))
-
 %% Plot cells
 
 tiledlayout(1,2)
@@ -56,3 +38,15 @@ ylabel('Number', 'FontSize', 16)
 legend('Free virus', 'FontSize', 16)
 title('Free virus over time (untreated condition)', 'FontSize', 16)
 %axis([0,12,0,200])
+
+%% Statistics
+
+disp('Total number of infected timesteps (by virus):')
+disp(nnz(yout(:,4) > 5.7E5))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
+peak_v = max(yout(:,4))
+disp("Peak virus:")
+disp(peak_v)
+find(yout(:,4) == peak_v)

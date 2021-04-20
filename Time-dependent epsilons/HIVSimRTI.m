@@ -128,3 +128,16 @@ plot(fulltspan, efficacies_A(1,:), 'LineWidth', 1.4)
 title('Efficacy of Reyataz Over 10 Days')
 xlabel('Time (days)')
 ylabel('Efficacy of PI')
+
+%% Statistics
+
+disp('Total number of infected timesteps (by virus):')
+disp(nnz(yout(:,4) > 5.7E5))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
+peak_v = max(yout(:,4))
+disp("Peak virus:")
+disp(peak_v)
+disp('Time to peak:')
+find(yout(:,4) == peak_v) % time to peak

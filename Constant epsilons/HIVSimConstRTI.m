@@ -59,3 +59,27 @@ legend('Free virus (\epsilon_{RTI} = 0.1)',...
     'FontSize', 16)
 title('Free virus over time (RTI condition, constant epsilon)', 'FontSize', 16)
 ylim([0 inf])
+
+%% Statistics
+
+disp('Total number of infected timesteps (by virus) with low epsilon:')
+disp(nnz(youts(:,4,3) > 5.7E5))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
+peak_v = max(youts(:,4,3))
+disp("Peak virus with low epsilon:")
+disp(peak_v)
+disp('Time to peak:')
+find(youts(:,4,3) == peak_v) % time to peak
+
+disp('Total number of infected timesteps (by virus) with high epsilon:')
+disp(nnz(youts(:,4,9) > 5.7E5))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
+peak_v = max(youts(:,4,9))
+disp("Peak virus with high epsilon:")
+disp(peak_v)
+disp('Time to peak:')
+find(youts(:,4,9) == peak_v) % time to peak
