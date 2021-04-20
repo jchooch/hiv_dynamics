@@ -32,6 +32,7 @@ TODO
 	Together, they should both be 0.2 or higher.
 - Make sure all rate decay coefficents are equal.
 - Make sure all new graphs are formatted right.
+- Plot *three* epsilon conditions for constant-epsilon cART simulation: 0.0/0.2, 0.6, 0.8.
 
 Key:
 	Low epsilon: 0.2 [3]
