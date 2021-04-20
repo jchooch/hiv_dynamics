@@ -1,3 +1,5 @@
+%%writefile HIVSimDrug.m
+
 %% Workspace initiation
 clear, format short e, figure(1), clf
 

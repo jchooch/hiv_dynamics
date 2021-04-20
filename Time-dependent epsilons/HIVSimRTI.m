@@ -16,7 +16,7 @@ yinit = [5E9, 100, 0, 1E6];  %T, I, L, V
 
 %% Solving ODE system
 
-Const_drug = [11.0903548896, 2.3765019031978];
+Const_drug = [0.1 * 11.0903548896, 0.2 * 2.3765019031978]; % Z decay rate, R decay rate
 yinit_drug = [.3, .3];
 
 DiffFileName = 'HIVDiffDrug';
@@ -55,9 +55,9 @@ DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y, C, efficacies)', DiffFileName)
 figure(1)
 tiledlayout(1,2)
 nexttile
-plot(tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-')
+plot(tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
 xlabel('Time (days)')
-ylabel('Number (\mug)')
+ylabel('Number of cells')
 legend('Target cells', 'Infected cells', 'Latent cells')
 title('Cells over time (RTI condition)')
 %axis([0,12,0,200])
@@ -65,9 +65,9 @@ title('Cells over time (RTI condition)')
 %% Plot virus
 
 nexttile
-plot(tout,yout(:,4),'r-')
+plot(tout,yout(:,4),'r-', 'LineWidth', 1.4)
 xlabel('Time (days)')
-ylabel('Number')
+ylabel('Number of virus particles')
 legend('Free virus')
 title('Free virus over time (RTI condition)')
 %axis([0,12,0,200])
@@ -77,7 +77,7 @@ title('Free virus over time (RTI condition)')
 figure(2)
 tiledlayout(2,2)
 nexttile
-plot(tspan, conc_Z, '-k')
+plot(tspan, conc_Z, '-k', 'LineWidth', 1.4)
 xlabel('Time (days)')
 ylabel('Concentration of Drug (M)')
 title('Concentration of Ziagen after 300mg Dose')
@@ -86,45 +86,45 @@ axis([0,1,0,2e-4])
 %% Ziagen Drug Efficacy
 
 nexttile
-plot(tspan, efficacy_Z, '-k')
+plot(tspan, efficacy_Z, '-k', 'LineWidth', 1.4)
 xlabel('Time (days)')
 ylabel('Efficacy of Drug')
 title('Efficacy of Ziagen after 300mg Dose')
 axis([0,1,0,1])
 
 
-%% Atazanavir Drug Concentration Curve
+%% Reyataz Drug Concentration Curve
 
 nexttile
-plot(tspan, conc_A, '-k')
+plot(tspan, conc_A, '-k', 'LineWidth', 1.4)
 xlabel('Time (days)')
 ylabel('Concentration of Drug (mg/mL)')
-title('Concentration of Atzanavir after 300mg Dose')
+title('Concentration of Reyataz after 300mg Dose')
 axis([0,1,0,1e-4])
 
-%% Atazanavir Drug Efficacy
+%% Reyataz Drug Efficacy
 
 nexttile
-plot(tspan, efficacy_A, '-k')
+plot(tspan, efficacy_A, '-k', 'LineWidth', 1.4)
 xlabel('Time (days)')
 ylabel('Efficacy of Drug')
-title('Efficacy of Atazanavir after 300mg Dose')
+title('Efficacy of Reyataz after 300mg Dose')
 axis([0,1,0,1])
 
 %% Checking Ziagen Timecourse
 
 figure(3)
 tiledlayout(1,2)
-plot(fulltspan, efficacies_Z(1,:))
+plot(fulltspan, efficacies_Z(1,:), 'LineWidth', 1.4)
 title('Efficacy of Ziagen Over 10 Days')
 xlabel('Time (days)')
 ylabel('Efficacy of RTI')
 
-%% Checking Atazanavir Timecourse
+%% Checking Reyataz Timecourse
 
 figure(4)
 tiledlayout(1,2)
-plot(fulltspan, efficacies_A(1,:))
-title('Efficacy of Atazanavir Over 10 Days')
+plot(fulltspan, efficacies_A(1,:), 'LineWidth', 1.4)
+title('Efficacy of Reyataz Over 10 Days')
 xlabel('Time (days)')
 ylabel('Efficacy of PI')
