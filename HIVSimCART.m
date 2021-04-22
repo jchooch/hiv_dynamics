@@ -1,21 +1,24 @@
-%%writefile HIVSimPI.m
+%%writefile HIVSimCART.m
+
+% RUN HIVSimUntr.m FIRST TO GET GLOBAL VARIABLES (UNTREATED DATA) FOR ...
+% COMPARATIVE PLOTS!
 
 %% Workspace initiation
 clear, format short e, figure(1), clf
 
-%% Establishing constants
+%% Establishing constants      
 
 Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 22, 5E8]; 
 %C(1)=gamma, C(2)=K_T, C(3)=d_T, C(4)=beta, C(5)=eta, C(6)=d_L,
 %C(7)=alpha_L, C(8)=d_I, C(9)=p, C(10)=c, C(11)=K_L
 
 num_days = 20;   % number of days = number of doses (see below)
-tspan = linspace(0,1,100);  % second number should be dose interval (e.g. 1 day)  
+tspan = linspace(0,1,100); % second number should be dose interval (e.g. 1 day)  
 yinit = [5E9, 100, 0, 1E6, 0];  %T, I, L, V_I, V_NI
 
 %% Solving ODE system
 
-Const_drug = [0.1 * 11.0903548896, 0.2 * 2.3765019031978]; % Z conc decay rate, R conc decay rate
+Const_drug = [0.1 * 11.0903548896, 0.2 * 2.3765019031978]; % Z decay rate, R decay rate
 yinit_drug = [.3, .3];
 
 DiffFileName = 'HIVDiffDrug';
@@ -42,72 +45,32 @@ efficacy_R = efficacy_R(:,1);
 
 efficacies_Z = repmat(transpose(efficacy_Z), 1, num_days)
 efficacies_R = repmat(transpose(efficacy_R), 1, num_days)
+efficacies_vec = vertcat(efficacies_Z, efficacies_R)
 
 fulltspan = linspace(0, num_days, length(tspan) * num_days)
 
-DiffFileName = 'HIVDiffPI';
-DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y, C, efficacies)', DiffFileName));
-[tout, yout] = ode45(@(t,y) DE(t,y,Const,efficacies_R(1,:)), fulltspan, yinit);
+DiffFileName = 'HIVDiffCART';
+DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y,C,efficacies)', DiffFileName));
+[tout, yout] = ode45(@(t,y) DE(t,y,Const,efficacies_vec), fulltspan, yinit);
 
 %% Plot cells
 
-figure(1)
 tiledlayout(1,2)
 nexttile
 plot(tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
-xlabel('Time (days)')
-ylabel('Number')
-legend('Target cells', 'Infected cells', 'Latent cells')
-title('Cells over time (PI condition)')
-%axis([0,12,0,200])
+xlabel('Time (days)', 'FontSize', 16)
+ylabel('Number of cells', 'FontSize', 16)
+legend('Target cells', 'Infected cells', 'Latent cells', 'FontSize', 16)
+title('Cells over time (cART condition)', 'FontSize', 16)
 
 %% Plot virus
 
 nexttile
 plot(tout,yout(:,4),'r-', tout,yout(:,5), 'c-', 'LineWidth', 1.4)
-xlabel('Time (days)')
-ylabel('Number')
-legend('Free infectious virus', 'Free noninfectious virus')
-title('Free virus over time (PI condition)')
-ylim([0 inf])
-
-%% Ziagen Drug Concentration Curve
-
-figure(2)
-tiledlayout(2,2)
-nexttile
-plot(tspan, conc_Z, '-k', 'LineWidth', 1.4)
-xlabel('Time (days)')
-ylabel('Concentration of Drug (M)')
-title('Concentration of Ziagen after 300mg Dose')
-axis([0,1,0,2e-4])
-
-%% Ziagen Drug Efficacy
-
-nexttile
-plot(tspan, efficacy_Z, '-k', 'LineWidth', 1.4)
-xlabel('Time (days)')
-ylabel('Efficacy of Drug')
-title('Efficacy of Ziagen after 300mg Dose')
-axis([0,1,0,1])
-
-%% Reyataz Drug Concentration Curve
-
-nexttile
-plot(tspan, conc_R, '-k', 'LineWidth', 1.4)
-xlabel('Time (days)')
-ylabel('Concentration of Drug (mg/mL)')
-title('Concentration of Reyataz after 300mg Dose')
-axis([0,1,0,1e-4])
-
-%% Reyataz Drug Efficacy
-
-nexttile
-plot(tspan, efficacy_R, '-k', 'LineWidth', 1.4)
-xlabel('Time (days)')
-ylabel('Efficacy of Drug')
-title('Efficacy of Reyataz after 300mg Dose')
-axis([0,1,0,1])
+xlabel('Time (days)', 'FontSize', 16)
+ylabel('Number of virus particles', 'FontSize', 16)
+legend('Free infectious virus', 'Free noninfectious virus', 'FontSize', 16)
+title('Free virus over time (cART condition)', 'FontSize', 16)
 
 %% Statistics
 

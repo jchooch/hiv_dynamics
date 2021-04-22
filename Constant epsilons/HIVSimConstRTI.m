@@ -83,6 +83,11 @@ disp(nnz(youts(:,4,3) > 5.7E5))
 utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
 disp(utter)
 
+disp('Total number of infected timesteps (by cells) with low epsilon:')
+disp(nnz(youts(:,2,3) > 1E9))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
 peak_v = max(youts(:,4,3))
 disp("Peak virus with low epsilon:")
 disp(peak_v)
@@ -91,6 +96,11 @@ find(youts(:,4,3) == peak_v) % time to peak
 
 disp('Total number of infected timesteps (by virus) with high epsilon:')
 disp(nnz(youts(:,4,9) > 5.7E5))
+utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(utter)
+
+disp('Total number of infected timesteps (by cells) with high epsilon:')
+disp(nnz(youts(:,2,9) > 1E9))
 utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
 disp(utter)
 

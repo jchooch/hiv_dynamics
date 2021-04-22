@@ -3,6 +3,9 @@
 %% Workspace initiation
 clear, format short e, figure(1), clf
 
+global untr_tout;
+global untr_yout;
+
 %% Establishing constants      
 
 % constants consistent with google doc a/o 04.11.2021
@@ -16,13 +19,13 @@ yinit = [5E9, 100, 0, 1E6];  %T, I, L, V
 
 DiffFileName = 'HIVDiffUntr';
 DE = eval(sprintf('@(t, y, C) %s(t,y,C)', DiffFileName));
-[tout, yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
+[untr_tout, untr_yout] = ode45(@(t,y) DE(t,y,Const), tspan, yinit);
 
 %% Plot cells
 
 tiledlayout(1,2)
 nexttile
-plot(tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
+plot(untr_tout,untr_yout(:,1),'k-', untr_tout,untr_yout(:,2),'b-', untr_tout,untr_yout(:,3),'g-', 'LineWidth', 1.4)
 xlabel('Time (days)', 'FontSize', 16)
 ylabel('Numbers', 'FontSize', 16)
 legend('Target cells', 'Infected cells', 'Latent cells', 'FontSize', 16)
@@ -32,21 +35,25 @@ title('Cells over time (untreated condition)', 'FontSize', 16)
 %% Plot virus
 
 nexttile
-plot(tout,yout(:,4),'r-', 'LineWidth', 1.4)
+plot(untr_tout,untr_yout(:,4),'r-', 'LineWidth', 1.4)
 xlabel('Time (days)', 'FontSize', 16)
 ylabel('Number', 'FontSize', 16)
 legend('Free virus', 'FontSize', 16)
 title('Free virus over time (untreated condition)', 'FontSize', 16)
-%axis([0,12,0,200])
 
 %% Statistics
 
 disp('Total number of infected timesteps (by virus):')
-disp(nnz(yout(:,4) > 5.7E5))
-utter = ['(Out of ', num2str(length(tout)), ' total timesteps.']
+disp(nnz(untr_yout(:,4) > 5.7E5))
+utter = ['(Out of ', num2str(length(untr_tout)), ' total timesteps.']
 disp(utter)
 
-peak_v = max(yout(:,4))
+disp('Total number of infected timesteps (by cells):')
+disp(nnz(untr_yout(:,2) > 1E9))
+utter = ['(Out of ', num2str(length(untr_tout)), ' total timesteps.']
+disp(utter)
+
+peak_v = max(untr_yout(:,4))
 disp("Peak virus:")
 disp(peak_v)
-find(yout(:,4) == peak_v)
+find(untr_yout(:,4) == peak_v)
