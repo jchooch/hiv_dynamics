@@ -21,18 +21,12 @@ TODO
 
 1. Check 5E7 virus as a reasonable threshold for infection window (it doesn't show on the graph).
 2. Maybe plot latent cells on log graph separately.
-3. Show drug concentration and efficacy curves over the full timespan.
 4. Figures and tables side-by-side. Use the latter to explain the former. Reference both in the body. Figures don't have to be huge.
 5. For Mechanism of Infection slide, too many figures. Divide up.
-6. Get peaks and times to peak for all conditions. (And area under curve, and slope of viral growth curve.)
+6. Get AUCs for all infected cells and virus curves...?
 7. Add additional assumptions to slides.
-8. Use constant epsilon simulations to estimate drug decay constants.
-	Epsilon PI should be 0.2 or higher.
-	Epsilon RTI should be 0.2 or higher.
-	Together, they should both be 0.2 or higher.
 - Make sure all rate decay coefficents are equal.
 - Make sure all new graphs are formatted right.
-- Plot *three* epsilon conditions for constant-epsilon cART simulation: 0.0/0.2, 0.6, 0.8.
 
 Key:
 	Low epsilon: 0.2 [3]
@@ -53,11 +47,3 @@ cART, low epsilons 				8.8685e+10		4.24			19.66					6.8 					_
 cART, high epsilons 			1000000			0.02			0.04 					0.0	 					_
 cART, time-dependent epsilon 	7.8589e+10 		14.14 			16.57 					
 cART, epsPI=epsRTI=0.6			3.8019e+10		17.88			17.28					5.96 					_
-
-
-
-
-
-
-
-

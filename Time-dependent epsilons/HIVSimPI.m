@@ -6,8 +6,8 @@
 %% Workspace initiation
 clear, format short e, figure(1), clf
 
-global untr_tout;
-global untr_yout;
+global untr_tout;       % brings in global variable from HIVSimUntr.m
+global untr_yout;       % brings in global variable from HIVSimUntr.m
 
 %% Establishing constants
 
