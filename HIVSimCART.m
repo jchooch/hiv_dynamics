@@ -6,6 +6,9 @@
 %% Workspace initiation
 clear, format short e, figure(1), clf
 
+global untr_tout;
+global untr_yout;
+
 %% Establishing constants      
 
 Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 22, 5E8]; 
@@ -57,20 +60,26 @@ DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y,C,efficacies)', DiffFileName));
 
 tiledlayout(1,2)
 nexttile
-plot(tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
+plot(untr_tout,untr_yout(:,1),'k--', untr_tout,untr_yout(:,2),'b--', ...
+    untr_tout,untr_yout(:,3),'g--',tout,yout(:,1),...
+    'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
 xlabel('Time (days)', 'FontSize', 16)
 ylabel('Number of cells', 'FontSize', 16)
-legend('Target cells', 'Infected cells', 'Latent cells', 'FontSize', 16)
-title('Cells over time (cART condition)', 'FontSize', 16)
+legend('Target cells (untreated)', 'Infected cells (untreated)',...
+    'Latent cells (untreated)', 'Target cells (cART)',...
+    'Infected cells (cART)', 'Latent cells (cART)', 'FontSize', 16)
+title('Cells over time (cART, time-dependent \epsilon)', 'FontSize', 16)
 
 %% Plot virus
 
 nexttile
-plot(tout,yout(:,4),'r-', tout,yout(:,5), 'c-', 'LineWidth', 1.4)
+plot(untr_tout,untr_yout(:,4),'r--',...
+    tout,yout(:,4),'r-', tout,yout(:,5), 'c-', 'LineWidth', 1.4)
 xlabel('Time (days)', 'FontSize', 16)
 ylabel('Number of virus particles', 'FontSize', 16)
-legend('Free infectious virus', 'Free noninfectious virus', 'FontSize', 16)
-title('Free virus over time (cART condition)', 'FontSize', 16)
+legend('Free infectious virus (untreated)', 'Free infectious virus (cART)',...
+    'Free noninfectious virus (cART)', 'FontSize', 16)
+title('Free virus over time (cART, time-dependent \epsilon)', 'FontSize', 16)
 
 %% Statistics
 

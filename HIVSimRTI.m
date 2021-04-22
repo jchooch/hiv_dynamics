@@ -6,6 +6,9 @@
 %% Workspace initiation
 clear, format short e, figure(1), clf
 
+global untr_tout;
+global untr_yout;
+
 %% Establishing constants      
 
 % constants consistent with google doc a/o 04.11.2021
@@ -58,21 +61,25 @@ DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y, C, efficacies)', DiffFileName)
 figure(1)
 tiledlayout(1,2)
 nexttile
-plot(tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
+plot(untr_tout, untr_yout(:,1), 'k--', untr_tout,untr_yout(:,2),'b--',...
+    untr_tout,untr_yout(:,3),'g--', tout,yout(:,1),'k-',...
+    tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
 xlabel('Time (days)')
 ylabel('Number of cells')
-legend('Target cells', 'Infected cells', 'Latent cells')
-title('Cells over time (RTI condition)')
+legend('Target cells (untreated)', 'Infected cells (untreated)',...
+    'Latent cells (untreated)', 'Target cells (RTI)',...
+    'Infected cells (RTI)', 'Latent cells (RTI)')
+title('Cells over time (RTI, time-dependent \epsilon)')
 %axis([0,12,0,200])
 
 %% Plot virus
 
 nexttile
-plot(tout,yout(:,4),'r-', 'LineWidth', 1.4)
+plot(untr_tout, untr_yout(:,4), 'r--',tout,yout(:,4),'r-', 'LineWidth', 1.4)
 xlabel('Time (days)')
 ylabel('Number of virus particles')
-legend('Free virus')
-title('Free virus over time (RTI condition)')
+legend('Free virus (untreated)', 'Free virus (RTI)')
+title('Free virus over time (RTI, time-dependent \epsilon)')
 %axis([0,12,0,200])
 
 %% Ziagen Drug Concentration Curve

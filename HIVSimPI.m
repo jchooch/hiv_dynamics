@@ -9,9 +9,6 @@ clear, format short e, figure(1), clf
 global untr_tout;
 global untr_yout;
 
-untr_t = untr_tout;
-untr_y = untr_yout;
-
 %% Establishing constants
 
 Const = [0.657, 5E9, 0.01, 6E-11, 6E-13, 0.00137, 0.000513442356, 0.27, 557.7, 22, 5E8]; 
@@ -63,21 +60,28 @@ DE = eval(sprintf('@(t, y, C, efficacies) %s(t,y, C, efficacies)', DiffFileName)
 figure(1)
 tiledlayout(1,2)
 nexttile
-plot(untr_t, untr_y(:,1), 'k--',untr_t, untr_y(:,2), 'b--',untr_t, untr_y(:,3), 'g--',tout,yout(:,1),'k-', tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
+plot(untr_tout, untr_yout(:,1), 'k--',untr_tout, untr_yout(:,2),'b--',...
+    untr_tout, untr_yout(:,3), 'g--',tout,yout(:,1),'k-', ...
+    tout,yout(:,2),'b-', tout,yout(:,3),'g-', 'LineWidth', 1.4)
 xlabel('Time (days)')
-ylabel('Number')
-legend('Target cells', 'Infected cells', 'Latent cells')
-title('Cells over time (PI condition)')
+ylabel('Number of cells')
+legend('Target cells (untreated)', 'Infected cells (untreated)',...
+    'Latent cells (untreated)', 'Target cells (PI)',...
+    'Infected cells (PI)', 'Latent cells (PI)')
+title('Cells over time (PI, time-dependent \epsilon)')
 %axis([0,12,0,200])
 
 %% Plot virus
 
 nexttile
-plot(untr_t, untr_y(:,4), 'r--', tout,yout(:,4),'r-', tout,yout(:,5), 'c-', 'LineWidth', 1.4)
+plot(untr_tout, untr_yout(:,4), 'r--', tout,yout(:,4),'r-',...
+    tout,yout(:,5), 'c-', 'LineWidth', 1.4)
 xlabel('Time (days)')
-ylabel('Number')
-legend('Free infectious virus', 'Free noninfectious virus')
-title('Free virus over time (PI condition)')
+ylabel('Number of virus particles')
+legend('Free infectious virus (untreated)',...
+    'Free infectious virus (PI)',...
+    'Free noninfectious virus (PI)')
+title('Free virus over time (PI, time-dependent \epsilon)')
 ylim([0 inf])
 
 %% Ziagen Drug Concentration Curve
