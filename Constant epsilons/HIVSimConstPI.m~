@@ -116,14 +116,10 @@ disp('Time to peak:')
 find(youts(:,4,9) == peak_v) % time to peak
 
 figure(3)
-tiledlayout(2,1)
+tiledlayout
 nexttile
 for i = 1:11
     plot(touts(:,i),youts(:,2,i))
     hold on
 end
-nexttile
-for i = 1:11
-    plot(touts(:,i),youts(:,4,i))
-end
-
+nex
